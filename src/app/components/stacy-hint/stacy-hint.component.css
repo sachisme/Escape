@@ -1,0 +1,24 @@
+.hint-box {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e;
+  border: 1px solid #e94560;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  color: #f0f0f0;
+  max-width: 500px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.hint-box strong {
+  color: #e94560;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.hint-box p {
+  margin: 0;
+}

@@ -1,0 +1,102 @@
+<div class="room-container" [class.vault-open]="isVaultOpen">
+  <button class="music-toggle" (click)="toggleMusic()" [attr.aria-label]="audioService.muted ? 'Unmute' : 'Mute'">
+    {{ audioService.muted ? '🔇' : '🔊' }}
+  </button>
+  <button class="back-btn" (click)="goToHub()">← Back to Hub</button>
+
+  <div class="stacy-bubble" *ngIf="stacyMessage && !isVaultOpen">
+    <span class="stacy-tag">Stacy</span>
+    <p>{{ stacyMessage }}</p>
+  </div>
+
+  <div
+    class="hotspot hotspot-mug"
+    role="button"
+    tabindex="0"
+    title="Coffee Mug"
+    (click)="showInsight('mug')"
+    (keyup.enter)="showInsight('mug')"
+  ></div>
+
+  <div
+    class="hotspot hotspot-blueprint"
+    role="button"
+    tabindex="0"
+    title="Blueprint"
+    (click)="showInsight('blueprint')"
+    (keyup.enter)="showInsight('blueprint')"
+  ></div>
+
+  <div
+    class="hotspot hotspot-phone"
+    role="button"
+    tabindex="0"
+    title="Telephone"
+    (click)="showInsight('phone')"
+    (keyup.enter)="showInsight('phone')"
+  ></div>
+
+  <div
+    class="hotspot hotspot-tsquare"
+    role="button"
+    tabindex="0"
+    title="T-Square"
+    (click)="showInsight('tsquare')"
+    (keyup.enter)="showInsight('tsquare')"
+  ></div>
+
+  <div
+    class="dial dial-1"
+    role="button"
+    tabindex="0"
+    [attr.aria-label]="'Vault dial 1, current value ' + dialValues[0]"
+    (click)="incrementDial(0)"
+    (keyup.enter)="incrementDial(0)"
+  >{{ dialValues[0] }}</div>
+
+  <div
+    class="dial dial-2"
+    role="button"
+    tabindex="0"
+    [attr.aria-label]="'Vault dial 2, current value ' + dialValues[1]"
+    (click)="incrementDial(1)"
+    (keyup.enter)="incrementDial(1)"
+  >{{ dialValues[1] }}</div>
+
+  <div
+    class="dial dial-3"
+    role="button"
+    tabindex="0"
+    [attr.aria-label]="'Vault dial 3, current value ' + dialValues[2]"
+    (click)="incrementDial(2)"
+    (keyup.enter)="incrementDial(2)"
+  >{{ dialValues[2] }}</div>
+
+  <div
+    class="dial dial-4"
+    role="button"
+    tabindex="0"
+    [attr.aria-label]="'Vault dial 4, current value ' + dialValues[3]"
+    (click)="incrementDial(3)"
+    (keyup.enter)="incrementDial(3)"
+  >{{ dialValues[3] }}</div>
+
+  <div class="insight-toast" *ngIf="insightVisible">
+    <span class="toast-tag">Leadership Insight · {{ insightTitle }}</span>
+    <p>{{ insightMessage }}</p>
+  </div>
+
+  <div class="vault-door" aria-hidden="true"></div>
+
+  <div class="victory-overlay" *ngIf="isVaultOpen">
+    <h2>Foundations Confirmed.</h2>
+    <p class="lead">Leadership Archive Unlocked.</p>
+    <p class="kicker">Well done, People Leader.</p>
+    <p class="code">Room Code: <strong>{{ roomCode }}</strong></p>
+    <p class="stacy-line">{{ stacyMessage }}</p>
+    <div class="actions">
+      <button class="next-btn" (click)="goToNextRoom()">Next Room →</button>
+      <button class="hub-btn" (click)="goToHub()">Return to Hub</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="room-container" [class.authorized]="isProjectAuthorized">
+  <button class="music-toggle" (click)="toggleMusic()" [attr.aria-label]="audioService.muted ? 'Unmute' : 'Mute'">
+    {{ audioService.muted ? '🔇' : '🔊' }}
+  </button>
+  <button class="back-btn" (click)="goToHub()">← Back to Hub</button>
+
+  <div class="stacy-bubble" *ngIf="stacyMessage && !isProjectAuthorized">
+    <span class="stacy-tag">Stacy</span>
+    <p>{{ stacyMessage }}</p>
+  </div>
+
+  <div class="hologram-orb" aria-hidden="true"></div>
+
+  <div
+    class="hologram-status"
+    [class.status-pending]="!allHotspotsVisited && !isProjectAuthorized"
+    [class.status-ready]="allHotspotsVisited && !isProjectAuthorized"
+    [class.status-granted]="isProjectAuthorized"
+  >{{ hologramStatus }}</div>
+
+  <div
+    class="hotspot hotspot-folder"
+    role="button"
+    tabindex="0"
+    title="Confidential: Q3 Schedule"
+    [class.visited]="visited.folder"
+    (click)="showBrief('folder')"
+    (keyup.enter)="showBrief('folder')"
+  ></div>
+
+  <div
+    class="hotspot hotspot-monitor"
+    role="button"
+    tabindex="0"
+    title="Project Budget Monitor"
+    [class.visited]="visited.monitor"
+    (click)="showBrief('monitor')"
+    (keyup.enter)="showBrief('monitor')"
+  ></div>
+
+  <div
+    class="hotspot hotspot-tablet"
+    role="button"
+    tabindex="0"
+    title="Org Chart Tablet"
+    [class.visited]="visited.tablet"
+    (click)="showBrief('tablet')"
+    (keyup.enter)="showBrief('tablet')"
+  ></div>
+
+  <div
+    class="hotspot hotspot-sticky"
+    role="button"
+    tabindex="0"
+    title="Strategic Note"
+    [class.visited]="visited.sticky"
+    (click)="showBrief('sticky')"
+    (keyup.enter)="showBrief('sticky')"
+  ></div>
+
+  <div class="vertex-indicator vertex-quality" [class.glow]="qualityLit" aria-hidden="true"></div>
+  <div class="vertex-indicator vertex-speed"   [class.glow]="speedLit"   aria-hidden="true"></div>
+  <div class="vertex-indicator vertex-cost"    [class.glow]="costLit"    aria-hidden="true"></div>
+
+  <div
+    class="auth-dial dial-1"
+    role="button"
+    tabindex="0"
+    [attr.aria-label]="'Authorization digit 1, current value ' + authValues[0]"
+    (click)="incrementAuthDigit(0)"
+    (keyup.enter)="incrementAuthDigit(0)"
+  >{{ authValues[0] }}</div>
+
+  <div
+    class="auth-dial dial-2"
+    role="button"
+    tabindex="0"
+    [attr.aria-label]="'Authorization digit 2, current value ' + authValues[1]"
+    (click)="incrementAuthDigit(1)"
+    (keyup.enter)="incrementAuthDigit(1)"
+  >{{ authValues[1] }}</div>
+
+  <div
+    class="auth-dial dial-3"
+    role="button"
+    tabindex="0"
+    [attr.aria-label]="'Authorization digit 3, current value ' + authValues[2]"
+    (click)="incrementAuthDigit(2)"
+    (keyup.enter)="incrementAuthDigit(2)"
+  >{{ authValues[2] }}</div>
+
+  <div class="brief-toast" *ngIf="briefVisible" [class.warning]="briefVariant === 'warning'">
+    <span class="brief-tag">{{ briefTag }}</span>
+    <p>{{ briefMessage }}</p>
+  </div>
+
+  <div class="success-overlay" *ngIf="isProjectAuthorized">
+    <h2>Alignment Confirmed.</h2>
+    <p class="lead">By grounding your strategy in talented <strong class="people">People (5)</strong>, you enabled <strong class="speed">Speed (7)</strong> and secured the <strong class="cost">Budget (2)</strong>.</p>
+    <p class="cleared">All Project Risks Cleared.</p>
+    <p class="code">Room Code: <strong>{{ roomCode }}</strong></p>
+    <p class="stacy-line">{{ stacyMessage }}</p>
+    <button class="exit-btn" (click)="exitDataCenter()">Exit the Data Center →</button>
+  </div>
+</div>

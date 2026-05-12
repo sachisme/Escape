@@ -1,0 +1,36 @@
+<div class="vault-room" [class.shaking]="shaking">
+  <button class="music-toggle" (click)="toggleMusic()">
+    {{ audioService.muted ? '🔇' : '🔊' }}
+  </button>
+  <button class="back-btn" (click)="goToHub()">← Back to Hub</button>
+
+  <div class="vault-container" *ngIf="!unlocked">
+    <div class="vault-door">
+      <div class="vault-circle">
+        <h2>🔐</h2>
+        <p class="vault-title">THE SAFE</p>
+      </div>
+    </div>
+
+    <p class="instruction">Enter the 6-digit code (combine your 3 room codes)</p>
+
+    <div class="dials">
+      <div *ngFor="let digit of digits; let i = index" class="dial">
+        <button class="spin-btn up" (click)="spinUp(i)">▲</button>
+        <span class="dial-digit">{{ digit }}</span>
+        <button class="spin-btn down" (click)="spinDown(i)">▼</button>
+      </div>
+    </div>
+
+    <button class="unlock-btn" (click)="tryUnlock()">🔓 Try Combination</button>
+  </div>
+
+  <div class="vault-open" *ngIf="unlocked">
+    <div class="vault-opened-animation">
+      <h2>🎉 VAULT OPENED! 🎉</h2>
+      <p>You're free!</p>
+    </div>
+  </div>
+
+  <app-stacy-hint [message]="hintMessage"></app-stacy-hint>
+</div>

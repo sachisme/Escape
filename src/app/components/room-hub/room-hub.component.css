@@ -1,0 +1,154 @@
+.hub {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.music-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.hub-title {
+  font-size: 2.2rem;
+  margin-bottom: 0.25rem;
+  background: linear-gradient(90deg, #e94560, #f5a623, #4ade80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hub-subtitle {
+  opacity: 0.7;
+  margin-bottom: 2rem;
+}
+
+.doors {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.door {
+  width: 220px;
+  padding: 1.5rem;
+  border-radius: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 2px solid rgba(255,255,255,0.1);
+}
+
+.door:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+.door--green {
+  background: linear-gradient(135deg, #0d3b2e, #1a6b4a);
+  border-color: #4ade80;
+}
+
+.door--purple {
+  background: linear-gradient(135deg, #2d1b69, #5b21b6);
+  border-color: #a78bfa;
+}
+
+.door--gold {
+  background: linear-gradient(135deg, #6b3a0a, #b45309);
+  border-color: #fbbf24;
+}
+
+.door-icon {
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+}
+
+.door h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.door-desc {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-bottom: 0.75rem;
+}
+
+.door-status {
+  font-size: 0.9rem;
+  color: #4ade80;
+  font-weight: bold;
+}
+
+.door-status--locked {
+  color: #fbbf24;
+  font-weight: normal;
+}
+
+.vault-btn {
+  margin-top: 2rem;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, #e94560, #f5a623);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: pulse 2s infinite;
+}
+
+.vault-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(233, 69, 96, 0.4);
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(233, 69, 96, 0.4); }
+  50% { box-shadow: 0 0 20px 10px rgba(233, 69, 96, 0.2); }
+}
+
+/* Hidden Masterkey backdoor button (bottom-right corner) */
+.masterkey {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.18);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: color 200ms ease, transform 200ms ease;
+}
+
+.masterkey:hover,
+.masterkey:focus-visible {
+  color: rgba(255, 255, 255, 0.55);
+  transform: scale(1.15);
+  outline: none;
+}

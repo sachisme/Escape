@@ -1,0 +1,71 @@
+<div class="room-container">
+  <button class="music-toggle" (click)="toggleMusic()" [attr.aria-label]="audioService.muted ? 'Unmute' : 'Mute'">
+    {{ audioService.muted ? '🔇' : '🔊' }}
+  </button>
+  <button class="back-btn" (click)="goToHub()">← Back to Hub</button>
+
+  <div class="stacy-bubble" *ngIf="stacyMessage && !isSolved">
+    <span class="stacy-tag">Stacy</span>
+    <p>{{ stacyMessage }}</p>
+  </div>
+
+  <div
+    class="dial dial-left"
+    role="button"
+    tabindex="0"
+    title="Efficiency"
+    (click)="updateDial('efficiency')"
+    (keyup.enter)="updateDial('efficiency')"
+  >
+    <span class="dial-label">Efficiency</span>
+    <span class="dial-value">{{ efficiencyValue }}</span>
+  </div>
+
+  <div
+    class="dial dial-center"
+    role="button"
+    tabindex="0"
+    title="Growth"
+    (click)="updateDial('growth')"
+    (keyup.enter)="updateDial('growth')"
+  >
+    <span class="dial-label">Growth</span>
+    <span class="dial-value">{{ growthValue }}</span>
+  </div>
+
+  <div
+    class="dial dial-right"
+    role="button"
+    tabindex="0"
+    title="Innovation"
+    (click)="updateDial('innovation')"
+    (keyup.enter)="updateDial('innovation')"
+  >
+    <span class="dial-label">Innovation</span>
+    <span class="dial-value">{{ innovationValue }}</span>
+  </div>
+
+  <div class="total-hud" *ngIf="!isSolved">
+    <span class="total-label">Calibration Total</span>
+    <span class="total-value">{{ totalValue }}</span>
+  </div>
+
+  <div class="success-overlay" *ngIf="isSolved">
+    <h2>You Met Your Role Expectations</h2>
+    <p class="multiplier">114% Team GM locked in.</p>
+    <p class="code">Room Code: <strong>{{ roomCode }}</strong></p>
+    <p class="stacy-line">{{ stacyMessage }}</p>
+    <button class="nav-btn" (click)="goToHub()">Return to Hub</button>
+  </div>
+
+  <div class="confetti-container" *ngIf="isSolved" aria-hidden="true">
+    <div
+      *ngFor="let c of confetti"
+      class="confetti-piece"
+      [style.left]="c.left"
+      [style.animation-delay]="c.delay"
+      [style.animation-duration]="c.duration"
+      [style.background]="c.color"
+    ></div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+{
+  "angular.enable-strict-mode-prompt": false,
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "sonarlint.connectedMode.connections.sonarqube": [
+    {
+      "connectionId": "https-sonar-gm-com",
+      "serverUrl": "https://sonar.gm.com"
+    }
+  ]
+}

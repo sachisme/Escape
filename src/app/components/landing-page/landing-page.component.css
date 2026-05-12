@@ -4,7 +4,10 @@
   display: flex;
   align-items: center; /* vertical centering */
   justify-content: center; /* horizontal centering */
-  background: black;
+  background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)),
+    url('https://images.unsplash.com/photo-1590073242678-70ee3fc28e8e?w=1920&q=80');
+  background-size: cover;
+  background-position: center;
 }
 
 .hero{
@@ -26,6 +29,31 @@
   padding: 2rem;
   box-sizing: border-box;
   border-radius: 8px;
+}
+
+.game-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+}
+
+.game-text {
+  color: white;
+  font-size: 2.5rem;
+  max-width: 600px;
+  text-align: center;
+  padding: 2rem;
+}
+
+.game-screen--light {
+  background: white;
+}
+
+.game-text--dark {
+  color: black;
 }
 
 .hero h1 {
@@ -50,4 +78,73 @@
 /* Keep the button visually separated on small heights */
 .hero-actions .btn {
   align-self: center;
+}
+
+/* Step-screen background: keep the same dark tone as the intro lines */
+.step-screen {
+  background: #000;
+}
+
+/* Glowing "Step into the Wild" button */
+.step-btn {
+  position: relative;
+  padding: 1.1rem 2.6rem;
+  font-size: 1.35rem;
+  letter-spacing: 0.08em;
+  font-family: 'Courier New', ui-monospace, monospace;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(125, 211, 252, 0.75);
+  border-radius: 999px;
+  cursor: pointer;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+  box-shadow:
+    0 0 18px rgba(125, 211, 252, 0.35),
+    inset 0 0 12px rgba(125, 211, 252, 0.15);
+  animation: stepBtnPulse 2.4s ease-in-out infinite;
+  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+.step-btn:hover,
+.step-btn:focus-visible {
+  transform: scale(1.04);
+  background: rgba(30, 64, 175, 0.55);
+  box-shadow:
+    0 0 28px rgba(125, 211, 252, 0.75),
+    inset 0 0 16px rgba(125, 211, 252, 0.35);
+  outline: none;
+}
+
+.step-btn:active {
+  transform: scale(0.98);
+}
+
+@keyframes stepBtnPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 14px rgba(125, 211, 252, 0.25),
+      inset 0 0 10px rgba(125, 211, 252, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 0 26px rgba(125, 211, 252, 0.65),
+      inset 0 0 16px rgba(125, 211, 252, 0.3);
+  }
+}
+
+/* Fade-to-white overlay used during the 500ms route change */
+.fade-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms ease-in;
+  z-index: 9999;
+}
+
+.fade-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
 }

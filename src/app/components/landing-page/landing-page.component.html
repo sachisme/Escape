@@ -2,7 +2,7 @@
 <div class="landing-page" *ngIf="onLandingPage" @fade>
   <div class="hero">
     <div class="hero-inner">
-      <h1>Sam's Game</h1>
+      <h1>Welcome to Escape Room</h1>
       <p class="lead">A text based mystery game.</p>
       <div class="hero-actions">
         <button
@@ -10,18 +10,30 @@
           class="btn btn-primary btn-lg px-4 gap-3"
           (click)="startGame()"
         >
-          Primary button
+          Start the Game
         </button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Start next page -->
-<div class="row mb-3 text-center" @fade>
-  <div class="col-4 themed-grid-col"></div>
-  <div class="col-4 themed-grid-col">
-    <p style="margin-top: 40vh;">{{ dialog }}</p>
-  </div>
-  <div class="col-4 themed-grid-col"></div>
+<!-- Intro typewriter lines -->
+<div class="game-screen" *ngIf="!onLandingPage && !gameTextDone" @fade>
+  <p class="game-text">{{ dialog }}</p>
 </div>
+
+<!-- After intro lines end: glowing Step into the Wild button -->
+<div class="game-screen step-screen" *ngIf="gameTextDone">
+  <button
+    *ngIf="showStepButton"
+    type="button"
+    class="step-btn"
+    (click)="stepIntoTheWild()"
+    @riseIn
+  >
+    [ Step into the Wild &amp; Enter ]
+  </button>
+</div>
+
+<!-- 500ms fade-to-white transition overlay (covers route change) -->
+<div class="fade-overlay" [class.active]="fadingOut"></div>

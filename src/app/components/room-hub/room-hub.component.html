@@ -1,0 +1,58 @@
+<div class="hub">
+  <button class="music-toggle" (click)="toggleMusic()">
+    {{ audioService.muted ? '🔇' : '🔊' }}
+  </button>
+
+  <h1 class="hub-title">Choose Your Room</h1>
+  <p class="hub-subtitle">Solve all 3 to unlock the safe. Enter in any order.</p>
+
+  <div class="doors">
+    <div class="door door--green" (click)="goToRoom('deadlock')">
+      <div class="door-icon">🔺</div>
+      <h3>Project Deadlock</h3>
+      <p class="door-desc">Resolve the constraints</p>
+      <div class="door-status" *ngIf="gameService.roomCodes.room1">
+        ✅ Code: {{ gameService.roomCodes.room1 }}
+      </div>
+      <div class="door-status door-status--locked" *ngIf="!gameService.roomCodes.room1">
+        🔒 Locked
+      </div>
+    </div>
+
+    <div class="door door--purple" (click)="goToRoom('leadership')">
+      <div class="door-icon">📜</div>
+      <h3>The Leadership Archive</h3>
+      <p class="door-desc">Unlock the foundations</p>
+      <div class="door-status" *ngIf="gameService.roomCodes.room2">
+        ✅ Code: {{ gameService.roomCodes.room2 }}
+      </div>
+      <div class="door-status door-status--locked" *ngIf="!gameService.roomCodes.room2">
+        🔒 Locked
+      </div>
+    </div>
+
+    <div class="door door--gold" (click)="goToRoom('calibration')">
+      <div class="door-icon">📊</div>
+      <h3>The Calibration Lab</h3>
+      <p class="door-desc">Decode the message</p>
+      <div class="door-status" *ngIf="gameService.roomCodes.room3">
+        ✅ Code: {{ gameService.roomCodes.room3 }}
+      </div>
+      <div class="door-status door-status--locked" *ngIf="!gameService.roomCodes.room3">
+        🔒 Locked
+      </div>
+    </div>
+  </div>
+
+  <button class="vault-btn" *ngIf="allSolved" (click)="goToVault()">
+    🔐 Open the Safe
+  </button>
+
+  <button
+    class="masterkey"
+    type="button"
+    (click)="openMasterkey()"
+    aria-label="Masterkey"
+    title=""
+  >⬢</button>
+</div>
