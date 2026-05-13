@@ -5,6 +5,7 @@ import { AudioService } from 'src/app/services/audio.service';
 import { StacyService } from 'src/app/services/stacy.service';
 
 type HotspotKey = 'mug' | 'blueprint' | 'phone' | 'tsquare';
+type GhostState = 'idle' | 'loading' | 'cooldown';
 
 @Component({
   selector: 'app-leadership-room',
@@ -22,6 +23,17 @@ export class LeadershipRoomComponent implements OnInit, OnDestroy {
   private insightTimer: number | null = null;
 
   stacyMessage = '';
+
+  // Ghost-terminal decoy ("Broken Terminal") — pure red herring.
+  // The real vault code is 1908; the terminal sprinkles 6 and 3 to misdirect.
+  ghostTerminalOpen = false;
+  ghostInput = '';
+  ghostState: GhostState = 'idle';
+  ghostLoadingProgress = 0;     // 0–95, never reaches 100
+  ghostCooldownSeconds = 60;    // visible countdown in cooldown phase
+  ghostAttemptCount = 0;        // tracked for flavor only
+  private ghostLoadingTimer: number | null = null;
+  private ghostCooldownTimer: number | null = null;
 
   hotspotMessages: Record<HotspotKey, { title: string; message: string }> = {
     mug: {
@@ -59,6 +71,7 @@ export class LeadershipRoomComponent implements OnInit, OnDestroy {
       window.clearTimeout(this.insightTimer);
       this.insightTimer = null;
     }
+    this.clearGhostTimers();
   }
 
   showInsight(key: HotspotKey): void {
@@ -120,5 +133,97 @@ export class LeadershipRoomComponent implements OnInit, OnDestroy {
 
   toggleMusic(): void {
     this.audioService.toggle();
+  }
+
+  openGhostTerminal(): void {
+    if (this.ghostTerminalOpen) {
+      return;
+    }
+    this.audioService.playClick();
+    this.ghostTerminalOpen = true;
+    this.ghostState = 'idle';
+    this.ghostInput = '';
+    this.ghostLoadingProgress = 0;
+    this.ghostCooldownSeconds = 60;
+  }
+
+  closeGhostTerminal(): void {
+    this.audioService.playClick();
+    this.ghostTerminalOpen = false;
+    this.ghostState = 'idle';
+    this.ghostInput = '';
+    this.ghostLoadingProgress = 0;
+    this.clearGhostTimers();
+  }
+
+  submitGhost(): void {
+    // No matter what they type, the trap fires. Phase 1: loading bar that
+    // stalls near the top, then Phase 2: cooldown error with live countdown.
+    if (this.ghostState !== 'idle') {
+      return;
+    }
+    this.audioService.playClick();
+    this.ghostAttemptCount++;
+    this.ghostState = 'loading';
+    this.ghostLoadingProgress = 0;
+    this.startGhostLoading();
+  }
+
+  private startGhostLoading(): void {
+    this.clearGhostTimers();
+    // Tick the bar up roughly every 90ms; stall around 95% so it never finishes.
+    this.ghostLoadingTimer = window.setInterval(() => {
+      if (this.ghostLoadingProgress < 92) {
+        const jump = Math.random() * 6 + 2; // 2–8% per tick
+        this.ghostLoadingProgress = Math.min(92, this.ghostLoadingProgress + jump);
+      } else if (this.ghostLoadingProgress < 95) {
+        this.ghostLoadingProgress = Math.min(95, this.ghostLoadingProgress + 0.4);
+      }
+    }, 90);
+
+    // After ~3.2s of "loading", flip to the cooldown error message.
+    window.setTimeout(() => {
+      if (this.ghostState !== 'loading') {
+        return;
+      }
+      if (this.ghostLoadingTimer !== null) {
+        window.clearInterval(this.ghostLoadingTimer);
+        this.ghostLoadingTimer = null;
+      }
+      this.ghostState = 'cooldown';
+      this.ghostCooldownSeconds = 60;
+      this.startGhostCooldown();
+    }, 3200);
+  }
+
+  private startGhostCooldown(): void {
+    if (this.ghostCooldownTimer !== null) {
+      window.clearInterval(this.ghostCooldownTimer);
+    }
+    this.ghostCooldownTimer = window.setInterval(() => {
+      this.ghostCooldownSeconds--;
+      if (this.ghostCooldownSeconds <= 0) {
+        // Loop the trap: reset to idle so they can "try again" forever.
+        if (this.ghostCooldownTimer !== null) {
+          window.clearInterval(this.ghostCooldownTimer);
+          this.ghostCooldownTimer = null;
+        }
+        this.ghostState = 'idle';
+        this.ghostInput = '';
+        this.ghostLoadingProgress = 0;
+        this.ghostCooldownSeconds = 60;
+      }
+    }, 1000);
+  }
+
+  private clearGhostTimers(): void {
+    if (this.ghostLoadingTimer !== null) {
+      window.clearInterval(this.ghostLoadingTimer);
+      this.ghostLoadingTimer = null;
+    }
+    if (this.ghostCooldownTimer !== null) {
+      window.clearInterval(this.ghostCooldownTimer);
+      this.ghostCooldownTimer = null;
+    }
   }
 }

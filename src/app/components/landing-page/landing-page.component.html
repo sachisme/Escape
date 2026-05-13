@@ -1,3 +1,14 @@
+<!-- Music mute / unmute toggle (top-right, available throughout the landing flow) -->
+<button
+  type="button"
+  class="landing-music-toggle"
+  (click)="toggleMusic()"
+  [attr.aria-label]="audioService.muted ? 'Unmute background music' : 'Mute background music'"
+  title="Toggle music"
+>
+  {{ audioService.muted ? '🔇' : '🔊' }}
+</button>
+
 <!-- Landing page -->
 <div class="landing-page" *ngIf="onLandingPage" @fade>
   <div class="hero">

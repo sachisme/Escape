@@ -133,6 +133,35 @@
   }
 }
 
+/* Music mute/unmute toggle (top-right of the landing flow) */
+.landing-music-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.65);
+  color: #f8fafc;
+  border: 1px solid rgba(125, 211, 252, 0.6);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10000;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.landing-music-toggle:hover,
+.landing-music-toggle:focus-visible {
+  background: rgba(30, 64, 175, 0.55);
+  box-shadow: 0 0 14px rgba(125, 211, 252, 0.55);
+  transform: scale(1.05);
+  outline: none;
+}
+
 /* Fade-to-white overlay used during the 500ms route change */
 .fade-overlay {
   position: fixed;

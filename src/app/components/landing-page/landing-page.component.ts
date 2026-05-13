@@ -32,7 +32,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   dialog: string = '';
 
   textList: string[] = [
-    "Legacy Code is the only thing currently keeping the lights on.",
+    "This Darkness is our  reality. The AI era: unknown and unmapped",
 
       "The 'Cloud' is just someone else’s computer... and it’s currently on fire.",
 
@@ -40,7 +40,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
 
       "You have 47 tabs open; 3 are frozen, and one is playing music you can't find.",
 
-      "A voice breaks the silence: 'Are you ready to test your problem-solving skills?'"
+      "A voice breaks the silence: 'You're not ready for this!'"
     ];
   private intervalId: number | null = null;
   private fadeTimerId: number | null = null;
@@ -58,9 +58,12 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private gameService: GameService, private router: Router, private audioService: AudioService) { }
+  constructor(private gameService: GameService, private router: Router, public audioService: AudioService) { }
 
   startGame(): void {
+    // First user gesture — safe to begin background audio here without
+    // tripping the browser's autoplay block.
+    this.audioService.playTrack('background');
     this.onLandingPage = false;
     this.rotatedDialog = true;
 
@@ -94,5 +97,9 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     this.fadeTimerId = window.setTimeout(() => {
       this.router.navigate(['/hub']);
     }, 500);
+  }
+
+  toggleMusic(): void {
+    this.audioService.toggle();
   }
 }

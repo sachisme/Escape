@@ -329,3 +329,397 @@
   .actions { flex-direction: column; }
   .insight-toast { top: 4%; padding: 0.6rem 1rem; }
 }
+
+/* ============================================================
+   GHOST TERMINAL DECOY ("Broken Terminal")
+   ============================================================ */
+
+/* The trigger: a prominent pulsing red "SYSTEM ALERT" placed
+   right on the gold vault to lure curious players. */
+.ghost-terminal {
+  position: absolute;
+  left: 60%;
+  top: 13%;
+  width: 20%;
+  min-width: 180px;
+  padding: 0.55rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  background: linear-gradient(180deg, rgba(40, 0, 0, 0.92), rgba(80, 0, 0, 0.92));
+  color: #ff5b5b;
+  border: 2px solid #ff2a2a;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  text-align: center;
+  cursor: pointer;
+  z-index: 9;
+  box-shadow:
+    0 0 14px rgba(255, 60, 60, 0.85),
+    0 0 28px rgba(255, 0, 0, 0.45),
+    inset 0 0 10px rgba(255, 0, 0, 0.35);
+  animation: ghostPulse 1.4s ease-in-out infinite;
+  text-shadow: 0 0 6px rgba(255, 80, 80, 0.85);
+}
+
+.ghost-terminal:hover,
+.ghost-terminal:focus-visible {
+  transform: scale(1.04);
+  outline: none;
+  box-shadow:
+    0 0 22px rgba(255, 70, 70, 1),
+    0 0 40px rgba(255, 0, 0, 0.6),
+    inset 0 0 14px rgba(255, 0, 0, 0.5);
+}
+
+.ghost-terminal__icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  color: #ffd95b;
+  text-shadow: 0 0 6px rgba(255, 200, 60, 0.9);
+}
+
+.ghost-terminal__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.ghost-terminal__sub {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: #ffb3b3;
+  opacity: 0.92;
+}
+
+.ghost-terminal__pulse {
+  position: absolute;
+  inset: -6px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 60, 60, 0.55);
+  pointer-events: none;
+  animation: ghostRing 1.8s ease-out infinite;
+}
+
+@keyframes ghostPulse {
+  0%, 100% {
+    background: linear-gradient(180deg, rgba(40, 0, 0, 0.92), rgba(80, 0, 0, 0.92));
+    box-shadow:
+      0 0 14px rgba(255, 60, 60, 0.85),
+      0 0 28px rgba(255, 0, 0, 0.45),
+      inset 0 0 10px rgba(255, 0, 0, 0.35);
+  }
+  50% {
+    background: linear-gradient(180deg, rgba(70, 0, 0, 0.95), rgba(120, 0, 0, 0.95));
+    box-shadow:
+      0 0 22px rgba(255, 90, 90, 1),
+      0 0 44px rgba(255, 0, 0, 0.7),
+      inset 0 0 16px rgba(255, 0, 0, 0.55);
+  }
+}
+
+@keyframes ghostRing {
+  0%   { transform: scale(0.95); opacity: 0.85; }
+  100% { transform: scale(1.18); opacity: 0;    }
+}
+
+/* Full-screen modal trap with matrix-rain backdrop */
+.ghost-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: ghostModalIn 0.25s ease-out;
+}
+
+@keyframes ghostModalIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.ghost-modal__rain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 70, 0.08) 0,
+      rgba(0, 255, 70, 0.08) 2px,
+      transparent 2px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 255, 70, 0.06) 0,
+      rgba(0, 255, 70, 0.06) 1px,
+      transparent 1px,
+      transparent 14px
+    );
+  mix-blend-mode: screen;
+  animation: ghostRain 1.2s linear infinite;
+  opacity: 0.55;
+}
+
+.ghost-modal__rain::after {
+  content: "0 1 0 1 1 0 1 0 9 8 6 3 0 1 6 3 0 8 9 0 6 3 1 0 8 9 6 3";
+  position: absolute;
+  inset: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: rgba(0, 255, 90, 0.18);
+  letter-spacing: 0.6em;
+  word-spacing: 0.4em;
+  white-space: pre-wrap;
+  padding: 1rem;
+  text-shadow: 0 0 4px rgba(0, 255, 90, 0.45);
+  animation: ghostRainShift 6s linear infinite;
+}
+
+@keyframes ghostRain {
+  from { background-position: 0 0, 0 0;       }
+  to   { background-position: 0 24px, 14px 0; }
+}
+
+@keyframes ghostRainShift {
+  from { transform: translateY(-30%); }
+  to   { transform: translateY(0);    }
+}
+
+/* The terminal window itself */
+.ghost-terminal-window {
+  position: relative;
+  width: min(720px, 92vw);
+  max-height: 86vh;
+  background: rgba(0, 12, 4, 0.94);
+  border: 1px solid rgba(0, 255, 100, 0.45);
+  border-radius: 8px;
+  box-shadow:
+    0 0 30px rgba(0, 255, 100, 0.35),
+    inset 0 0 14px rgba(0, 255, 100, 0.12);
+  font-family: 'Courier New', ui-monospace, monospace;
+  color: #6effa1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  animation: ghostWindowIn 0.3s ease-out;
+}
+
+@keyframes ghostWindowIn {
+  from { transform: translateY(12px) scale(0.97); opacity: 0; }
+  to   { transform: translateY(0)    scale(1);    opacity: 1; }
+}
+
+.ghost-terminal-window__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.7rem;
+  background: rgba(0, 30, 10, 0.95);
+  border-bottom: 1px solid rgba(0, 255, 100, 0.35);
+}
+
+.ghost-terminal-window__dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.ghost-terminal-window__dot--red    { background: #ff5f56; }
+.ghost-terminal-window__dot--amber  { background: #ffbd2e; }
+.ghost-terminal-window__dot--green  { background: #27c93f; }
+
+.ghost-terminal-window__title {
+  margin-left: 0.6rem;
+  flex: 1;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: #b2ffce;
+  text-align: center;
+}
+
+.ghost-terminal-window__close {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 100, 0.5);
+  background: transparent;
+  color: #b2ffce;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ghost-terminal-window__close:hover {
+  background: rgba(255, 60, 60, 0.85);
+  color: #fff;
+  border-color: #ff5b5b;
+}
+
+.ghost-terminal-window__body {
+  padding: 0.9rem 1.1rem 1rem;
+  overflow-y: auto;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.ghost-line {
+  margin: 0 0 0.25rem;
+  white-space: pre-wrap;
+  font-family: inherit;
+  color: #6effa1;
+  text-shadow: 0 0 4px rgba(110, 255, 161, 0.4);
+}
+
+.ghost-line--dim {
+  color: #4ec986;
+  opacity: 0.85;
+}
+
+.ghost-line--small {
+  font-size: 0.78rem;
+}
+
+.ghost-line--alert {
+  color: #ff8585;
+  text-shadow: 0 0 6px rgba(255, 90, 90, 0.55);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-top: 0.6rem;
+}
+
+.ghost-line--footer {
+  margin-top: 0.9rem;
+  text-align: center;
+  font-size: 0.72rem;
+  opacity: 0.65;
+}
+
+/* The decoy numbers — rendered slightly amber to invite attention. */
+.ghost-num {
+  color: #ffd95b;
+  text-shadow: 0 0 6px rgba(255, 217, 91, 0.7);
+  font-weight: 700;
+  padding: 0 1px;
+}
+
+.ghost-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0.7rem 0 0.3rem;
+  padding: 0.45rem 0.55rem;
+  background: rgba(0, 30, 10, 0.85);
+  border: 1px solid rgba(0, 255, 100, 0.35);
+  border-radius: 4px;
+}
+
+.ghost-prompt__label {
+  color: #b2ffce;
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+.ghost-prompt__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #d4ffe2;
+  font-family: inherit;
+  font-size: 0.95rem;
+  caret-color: #6effa1;
+  text-shadow: 0 0 4px rgba(110, 255, 161, 0.6);
+}
+
+.ghost-prompt__input:disabled {
+  opacity: 0.5;
+}
+
+.ghost-prompt__submit {
+  background: rgba(0, 255, 100, 0.15);
+  color: #b2ffce;
+  border: 1px solid rgba(0, 255, 100, 0.55);
+  border-radius: 3px;
+  padding: 0.25rem 0.7rem;
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ghost-prompt__submit:hover:not(:disabled) {
+  background: rgba(0, 255, 100, 0.3);
+}
+
+.ghost-prompt__submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ghost-loading {
+  margin-top: 0.6rem;
+}
+
+.ghost-loading__bar {
+  height: 14px;
+  background: rgba(0, 30, 10, 0.85);
+  border: 1px solid rgba(0, 255, 100, 0.45);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0.35rem 0;
+  position: relative;
+}
+
+.ghost-loading__fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 255, 100, 0.9),
+    rgba(110, 255, 161, 0.95) 60%,
+    rgba(180, 255, 200, 1)
+  );
+  box-shadow: 0 0 10px rgba(110, 255, 161, 0.8);
+  transition: width 0.2s ease-out;
+}
+
+.ghost-error {
+  margin-top: 0.6rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px dashed rgba(255, 90, 90, 0.55);
+  border-radius: 3px;
+  background: rgba(60, 0, 0, 0.35);
+}
+
+@media (max-width: 900px) {
+  .ghost-terminal {
+    left: 55%;
+    top: 18%;
+    width: 36%;
+    min-width: 0;
+    padding: 0.4rem 0.5rem;
+  }
+  .ghost-terminal__title { font-size: 0.85rem; }
+  .ghost-terminal__sub   { font-size: 0.55rem; }
+  .ghost-terminal-window__body { font-size: 0.82rem; }
+}
+
+@media (max-width: 560px) {
+  .ghost-terminal {
+    left: 50%;
+    top: 12%;
+    transform: translateX(-50%);
+    width: 70%;
+  }
+  .ghost-terminal:hover,
+  .ghost-terminal:focus-visible {
+    transform: translateX(-50%) scale(1.04);
+  }
+}

@@ -26,6 +26,7 @@ export class CalibrationRoomComponent implements OnInit {
   isSolved = false;
   roomCode = '58';
   stacyMessage = '';
+  feedbackMessage = '';
   confetti: ConfettiPiece[] = [];
 
   constructor(
@@ -77,12 +78,22 @@ export class CalibrationRoomComponent implements OnInit {
   }
 
   private checkSolved(): void {
-    if (this.totalValue === 114 && !this.isSolved) {
+    // Strict success condition: innovation = 70, efficiency = 40, growth = 4
+    if (this.innovation === 70 && this.efficiency === 40 && this.growth === 4 && !this.isSolved) {
       this.isSolved = true;
+      this.feedbackMessage = '';
       this.audioService.playSuccess();
       this.stacyMessage = this.stacyService.getRandomQuote('room3Success');
       this.gameService.setRoomCode('room3', this.roomCode);
       this.generateConfetti();
+    } else if (this.totalValue === 114 && this.innovation<70) {
+      // Incorrect ratio feedback
+      this.feedbackMessage = 'Calibration unstable. Balance vision with sustainable execution';
+    } else if (this.totalValue === 114 && this.innovation>70) {
+      // Incorrect ratio feedback
+      this.feedbackMessage = 'Excessive Innovation without a stable foundation leads to collapse. Recalibrate for sustainable equilibrium.';
+    }else {
+      this.feedbackMessage = '';
     }
   }
 

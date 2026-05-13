@@ -88,6 +88,102 @@
 
   <div class="vault-door" aria-hidden="true"></div>
 
+  <!-- Ghost-terminal decoy: prominent red "SYSTEM ALERT" plastered on the gold vault.
+       Pure red herring — the real code is hidden in the room. -->
+  <button
+    type="button"
+    class="ghost-terminal"
+    *ngIf="!isVaultOpen"
+    (click)="openGhostTerminal()"
+    [attr.aria-label]="'Critical system alert — click to investigate'"
+  >
+    <span class="ghost-terminal__icon" aria-hidden="true">⚠</span>
+    <span class="ghost-terminal__title">SYSTEM ALERT</span>
+    <span class="ghost-terminal__sub">SECURITY BREACH · CLICK TO RESTORE</span>
+    <span class="ghost-terminal__pulse" aria-hidden="true"></span>
+  </button>
+
+  <!-- Full-screen matrix-style modal trap -->
+  <div
+    class="ghost-modal"
+    *ngIf="ghostTerminalOpen"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="ghost-modal-title"
+  >
+    <div class="ghost-modal__rain" aria-hidden="true"></div>
+
+    <div class="ghost-terminal-window" (click)="$event.stopPropagation()">
+      <div class="ghost-terminal-window__bar">
+        <span class="ghost-terminal-window__dot ghost-terminal-window__dot--red"></span>
+        <span class="ghost-terminal-window__dot ghost-terminal-window__dot--amber"></span>
+        <span class="ghost-terminal-window__dot ghost-terminal-window__dot--green"></span>
+        <span class="ghost-terminal-window__title">root@vault-mainframe:~ — admin override</span>
+        <button
+          type="button"
+          class="ghost-terminal-window__close"
+          (click)="closeGhostTerminal()"
+          aria-label="Close terminal"
+        >×</button>
+      </div>
+
+      <div class="ghost-terminal-window__body">
+        <pre class="ghost-line ghost-line--dim">[boot] mainframe handshake .................... OK</pre>
+        <pre class="ghost-line ghost-line--dim">[boot] subnet 10.0.0.<span class="ghost-num">3</span>:443 ............... OK</pre>
+        <pre class="ghost-line ghost-line--dim">[boot] node hash 0x9F-<span class="ghost-num">3</span>A-2C-<span class="ghost-num">6</span>D ........ OK</pre>
+        <pre class="ghost-line ghost-line--dim">[diag] System ID: <span class="ghost-num">6</span> · Node: <span class="ghost-num">3</span> · Quorum: <span class="ghost-num">6</span>/<span class="ghost-num">3</span></pre>
+        <pre class="ghost-line ghost-line--dim">[diag] cipher rotation key fragment: ··<span class="ghost-num">6</span>··<span class="ghost-num">3</span>··</pre>
+
+        <pre class="ghost-line ghost-line--alert" id="ghost-modal-title">[CRITICAL ERROR] — SECURITY BREACH IN PROGRESS.</pre>
+        <pre class="ghost-line ghost-line--alert">ENTER ADMIN OVERRIDE TO RESTORE SYSTEM.</pre>
+
+        <pre class="ghost-line ghost-line--dim ghost-line--small">
+> last 3 attempts: SYNERGY · TRANSFORMATION · ALIGNMENT  (all rejected)
+> hint: corporate vocabulary, single word, all caps</pre>
+
+        <form class="ghost-prompt" (ngSubmit)="submitGhost()" autocomplete="off">
+          <span class="ghost-prompt__label">root@vault:~$</span>
+          <input
+            type="text"
+            class="ghost-prompt__input"
+            name="ghostInput"
+            [(ngModel)]="ghostInput"
+            [disabled]="ghostState !== 'idle'"
+            placeholder="enter override password..."
+            autocomplete="off"
+            spellcheck="false"
+            maxlength="40"
+          />
+          <button
+            type="submit"
+            class="ghost-prompt__submit"
+            [disabled]="ghostState !== 'idle' || !ghostInput.trim()"
+          >submit</button>
+        </form>
+
+        <div class="ghost-loading" *ngIf="ghostState === 'loading'" aria-live="polite">
+          <pre class="ghost-line">> validating credentials against mainframe...</pre>
+          <div class="ghost-loading__bar">
+            <div
+              class="ghost-loading__fill"
+              [style.width.%]="ghostLoadingProgress"
+            ></div>
+          </div>
+          <pre class="ghost-line ghost-line--dim">{{ ghostLoadingProgress | number:'1.0-0' }}% — handshake with node <span class="ghost-num">3</span>...</pre>
+        </div>
+
+        <div class="ghost-error" *ngIf="ghostState === 'cooldown'" aria-live="assertive">
+          <pre class="ghost-line ghost-line--alert">Validating credentials... Alignment check failed.</pre>
+          <pre class="ghost-line ghost-line--alert">Try again in {{ ghostCooldownSeconds }} seconds.</pre>
+          <pre class="ghost-line ghost-line--dim ghost-line--small">attempt #{{ ghostAttemptCount }} · System ID: <span class="ghost-num">6</span> · Node: <span class="ghost-num">3</span></pre>
+        </div>
+
+        <pre class="ghost-line ghost-line--dim ghost-line--footer">
+═══ vault.mainframe ═══ uptime 4d 12h ═══ kernel 6.<span class="ghost-num">3</span>.<span class="ghost-num">6</span> ═══</pre>
+      </div>
+    </div>
+  </div>
+
   <div class="victory-overlay" *ngIf="isVaultOpen">
     <h2>Foundations Confirmed.</h2>
     <p class="lead">Leadership Archive Unlocked.</p>

@@ -50,9 +50,15 @@
     <span class="total-value">{{ totalValue }}</span>
   </div>
 
+  <div class="feedback-message" *ngIf="feedbackMessage && !isSolved">
+    <p>{{ feedbackMessage }}</p>
+  </div>
+
   <div class="success-overlay" *ngIf="isSolved">
-    <h2>You Met Your Role Expectations</h2>
-    <p class="multiplier">114% Team GM locked in.</p>
+    <h2>You successfully navigated the AI transitions</h2>
+    <p class="multiplier">Innovation (70%): The Disruptor is engaged.</p>
+    <p class="multiplier">Efficiency (40%): The Foundation is secure.</p>
+    <p class="multiplier">Growth (4%): The Signal is verified.</p>
     <p class="code">Room Code: <strong>{{ roomCode }}</strong></p>
     <p class="stacy-line">{{ stacyMessage }}</p>
     <button class="nav-btn" (click)="goToHub()">Return to Hub</button>
