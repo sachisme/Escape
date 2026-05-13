@@ -38,6 +38,7 @@ export class ProjectDeadlockComponent implements OnInit, OnDestroy {
   private briefTimer: number | null = null;
 
   stacyMessage = '';
+  backgroundImageUrl = 'url(assets/images/project-deadlock.png)';
 
   hotspots: Record<HotspotKey, HotspotBrief> = {
     folder: {

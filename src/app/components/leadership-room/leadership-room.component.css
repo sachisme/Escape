@@ -1,7 +1,7 @@
 .room-container {
   position: fixed;
   inset: 0;
-  background-image: url('/assets/images/leadership-room.png');
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

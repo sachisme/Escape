@@ -23,6 +23,7 @@ export class LeadershipRoomComponent implements OnInit, OnDestroy {
   private insightTimer: number | null = null;
 
   stacyMessage = '';
+  backgroundImageUrl = 'url(assets/images/leadership-room.png)';
 
   // Ghost-terminal decoy ("Broken Terminal") — pure red herring.
   // The real vault code is 1908; the terminal sprinkles 6 and 3 to misdirect.

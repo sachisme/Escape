@@ -1,4 +1,4 @@
-<div class="room-container" [class.authorized]="isProjectAuthorized">
+<div class="room-container" [class.authorized]="isProjectAuthorized" [style.backgroundImage]="backgroundImageUrl">
   <button class="music-toggle" (click)="toggleMusic()" [attr.aria-label]="audioService.muted ? 'Unmute' : 'Mute'">
     {{ audioService.muted ? '🔇' : '🔊' }}
   </button>

@@ -1,7 +1,6 @@
 .room-container {
   position: fixed;
   inset: 0;
-  background-image: url('/assets/images/calibration-lab.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

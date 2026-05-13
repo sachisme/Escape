@@ -1,4 +1,4 @@
-<div class="room-container" [class.vault-open]="isVaultOpen">
+<div class="room-container" [class.vault-open]="isVaultOpen" [style.backgroundImage]="backgroundImageUrl">
   <button class="music-toggle" (click)="toggleMusic()" [attr.aria-label]="audioService.muted ? 'Unmute' : 'Mute'">
     {{ audioService.muted ? '🔇' : '🔊' }}
   </button>

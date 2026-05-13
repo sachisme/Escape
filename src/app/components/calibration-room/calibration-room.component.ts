@@ -28,6 +28,7 @@ export class CalibrationRoomComponent implements OnInit {
   stacyMessage = '';
   feedbackMessage = '';
   confetti: ConfettiPiece[] = [];
+  backgroundImageUrl = 'url(assets/images/calibration-lab.png)';
 
   constructor(
     private gameService: GameService,
